@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 }
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({ Key? key }) : super(key: key);
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -41,9 +41,8 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 3),
-      () => Navigator.pushReplacement(context, 
-      MaterialPageRoute(builder: (content) => const ConversionPage()))
-    );
+        const Duration(seconds: 3),
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (content) => const ConversionPage())));
   }
 }

@@ -20,26 +20,30 @@ class _ConversionPageState extends State<ConversionPage> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Currency Converter'),
-        ),
-        body: Column(
-          children: [
-            const SizedBox(height: 10),
-            Flexible(
-              flex: 3,
-              child: Image.asset('assets/images/logo.png')
-            ),
-            const Flexible(flex: 5, child: ConversionForm(),)
-          ],
-        )
-      ),
+          appBar: AppBar(
+            title: const Text('Currency Converter'),
+          ),
+          body: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Flexible(
+                flex: 3,
+                child: Image.asset('assets/images/logo.png'),
+              ),
+              const Flexible(
+                flex: 5,
+                child: ConversionForm(),
+              )
+            ],
+          )),
     );
   }
 }
 
 class ConversionForm extends StatefulWidget {
-  const ConversionForm({ Key? key }) : super(key: key);
+  const ConversionForm({Key? key}) : super(key: key);
 
   @override
   _ConversionFormState createState() => _ConversionFormState();
@@ -53,48 +57,55 @@ class _ConversionFormState extends State<ConversionForm> {
 
   String selectCur1 = "EUR", selectCur2 = "USD";
   List<String> curList = [
-    "GBP","EUR","USD","IDR","MYR",
-    "AED","JPY","CNY","KRW","BTC"
+    "GBP",
+    "EUR",
+    "USD",
+    "IDR",
+    "MYR",
+    "AED",
+    "JPY",
+    "CNY",
+    "KRW",
+    "BTC"
   ];
 
   _convert() async {
-    var url = Uri.parse('https://freecurrencyapi.net/api/v2/latest?apikey=1d9f5f00-5b69-11ec-b593-5754aeff7d0e');
+    var url = Uri.parse(
+        'https://freecurrencyapi.net/api/v2/latest?apikey=1d9f5f00-5b69-11ec-b593-5754aeff7d0e');
     var response = await http.get(url);
     var rescode = response.statusCode;
 
     setState(() {
-      
-      if(rescode == 200) {
+      if (rescode == 200) {
         var jsonData = response.body;
         var parsedJson = json.decode(jsonData);
 
-        if(selectCur1 == "USD") {
+        if (selectCur1 == "USD") {
           inputCurr = 1.0;
         } else {
           inputCurr = parsedJson['data'][selectCur1];
         }
 
-        if(selectCur2 == "USD") {
+        if (selectCur2 == "USD") {
           outputCurr = 1.0;
-        }else {
+        } else {
           outputCurr = parsedJson['data'][selectCur2];
         }
 
         desc = "";
       } else {
-          desc = "No data";
+        desc = "No data";
       }
 
       if (inputEditingController.text != "") {
         input = double.parse(inputEditingController.text);
-        output = (input/inputCurr)*outputCurr;
+        output = (input / inputCurr) * outputCurr;
         outputEditingController.text = output.toStringAsFixed(3);
       } else {
         outputEditingController.text = "";
         input = 0.0;
         output = 0.0;
       }
-
     });
   }
 
@@ -106,22 +117,21 @@ class _ConversionFormState extends State<ConversionForm> {
         child: Column(
           children: [
             const SizedBox(height: 15),
-            Row( 
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Flexible(
                   flex: 2,
                   child: TextField(
                     controller: inputEditingController,
-                    autofocus: true,
+                    autofocus: false,
                     keyboardType: const TextInputType.numberWithOptions(),
                     onChanged: (newValue) {
                       _convert();
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:BorderRadius.circular(10.0)
-                      ),
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
                 ),
@@ -147,7 +157,7 @@ class _ConversionFormState extends State<ConversionForm> {
               ],
             ),
             const SizedBox(height: 15),
-            Row( 
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Flexible(
@@ -157,8 +167,7 @@ class _ConversionFormState extends State<ConversionForm> {
                     enabled: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:BorderRadius.circular(10.0)
-                      ),
+                          borderRadius: BorderRadius.circular(10.0)),
                     ),
                   ),
                 ),
@@ -184,12 +193,20 @@ class _ConversionFormState extends State<ConversionForm> {
               ],
             ),
             const SizedBox(height: 30),
-            Text(input.toString() + " " + selectCur1 + " = " + output.toString() + " " + selectCur2,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+                input.toString() +
+                    " " +
+                    selectCur1 +
+                    " = " +
+                    output.toString() +
+                    " " +
+                    selectCur2,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Text(desc),
-            const SizedBox(height:3),
+            const SizedBox(height: 3),
             const Text("Thank you for using our service",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal))
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal))
           ],
         ),
       ),
