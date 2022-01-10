@@ -26,7 +26,7 @@ class _ConversionPageState extends State<ConversionPage> {
           body: Column(
             children: [
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               Flexible(
                 flex: 3,
@@ -100,7 +100,7 @@ class _ConversionFormState extends State<ConversionForm> {
       if (inputEditingController.text != "") {
         input = double.parse(inputEditingController.text);
         output = (input / inputCurr) * outputCurr;
-        outputEditingController.text = output.toStringAsFixed(3);
+        outputEditingController.text = output.toString();
       } else {
         outputEditingController.text = "";
         input = 0.0;
@@ -124,7 +124,7 @@ class _ConversionFormState extends State<ConversionForm> {
                   flex: 2,
                   child: TextField(
                     controller: inputEditingController,
-                    autofocus: false,
+                    autofocus: true,
                     keyboardType: const TextInputType.numberWithOptions(),
                     onChanged: (newValue) {
                       _convert();
@@ -198,7 +198,7 @@ class _ConversionFormState extends State<ConversionForm> {
                     " " +
                     selectCur1 +
                     " = " +
-                    output.toString() +
+                    output.toStringAsFixed(3) +
                     " " +
                     selectCur2,
                 style:
